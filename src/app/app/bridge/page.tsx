@@ -118,7 +118,7 @@ const Bridge = () => {
               <SelectValue placeholder="Select NFT" />
             </SelectTrigger>
             <SelectContent>
-              {nftWallets.length > 0 ? (
+              {/* {nftWallets.length > 0 ? (
                 nftWallets.map((wallet) => (
                   <SelectItem key={wallet} value={wallet}>
                     omniAccountWallet NFT #{Number(wallet)}
@@ -128,7 +128,10 @@ const Bridge = () => {
                 <SelectItem disabled value="">
                   No NFTs available
                 </SelectItem>
-              )}
+              )} */}
+              <SelectItem value={"1"}>NFT 1</SelectItem>
+              <SelectItem value={"2"}>NFT 2</SelectItem>
+              <SelectItem value={"3"}>NFT 3</SelectItem>
             </SelectContent>
           </Select>
         </div>
