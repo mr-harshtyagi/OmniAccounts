@@ -52,6 +52,12 @@ const Bridge = () => {
   const { isPending, isSuccess, error, writeContract } = useWriteContract();
 
   useEffect(() => {
+    if (error) {
+      toast({ title: "Oops!", description: "Error Bridging NFT. Please try again!", variant: "destructive" })
+    };
+  }, [error]);
+
+  useEffect(() => {
     console.log(nftData);
     if (nftData) {
       setNftWallets(nftData as string[]);
@@ -59,6 +65,10 @@ const Bridge = () => {
       setNftWallets([]);
     }
   }, [nftData]);
+
+  useEffect(() => {
+    if (isPending) toast({ title: "Bridging NFT...", description: "Confirm transaction in wallet.", variant: "default" });
+  }, [isPending]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -120,6 +130,30 @@ const Bridge = () => {
 
     console.log([sendParam, nativeFee, false], BigInt(nativeFee));
   };
+
+  if (isLoading) {
+    return (
+      <div className="py-8">
+        <div className="flex justify-start">
+          <Skeleton className="h-10 w-72 rounded-full" />
+        </div>
+        <div className="flex flex-col space-y-4 items-center mt-28 w-full">
+          <div className="flex items-center space-x-4">
+            <Skeleton className="h-8 w-40 rounded-full" />
+            <Skeleton className="h-8 w-72 rounded-full" />
+          </div>
+
+          <div className="flex items-center space-x-4">
+            <Skeleton className="h-8 w-40 rounded-full" />
+            <Skeleton className="h-8 w-72 rounded-full" />
+          </div>
+          <div className="flex justify-center">
+            <Skeleton className="h-10 w-40 rounded-lg" />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="py-8">

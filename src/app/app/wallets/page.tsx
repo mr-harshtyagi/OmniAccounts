@@ -34,8 +34,11 @@ const Wallets = () => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center mt-40">
+      <div className="flex flex-col gap-2 justify-center items-center mt-40">
         <Spinner />
+        <p className=" font-semibold text-muted-foreground">
+          Loading wallets...
+        </p>
       </div>
     );
   }
