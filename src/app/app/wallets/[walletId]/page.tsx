@@ -81,7 +81,12 @@ const WalletOverview = () => {
   };
 
   const handleTransactionView = () => {
-    router.push(chain?.blockExplorers?.default.url + `/address/${nftAccount}`);
+    // open in new tab
+    window.open(
+      chain?.blockExplorers?.default.url + `/address/${nftAccount}`,
+      "_blank"
+    );
+    // router.push(chain?.blockExplorers?.default.url + `/address/${nftAccount}`);
   };
 
   const getAccount = async () => {
@@ -302,9 +307,7 @@ const WalletOverview = () => {
       </div>
       <div className=" flex justify-between py-8">
         <div className="flex flex-col gap-2">
-          <div className="text-3xl font-medium">
-            OmniAccount Wallet NFT#{walletId}
-          </div>
+          <div className="text-3xl font-medium">NFT Wallet #{walletId}</div>
           <div className="flex items-center gap-2">
             <div className="text-md text-muted-foreground">
               Account:

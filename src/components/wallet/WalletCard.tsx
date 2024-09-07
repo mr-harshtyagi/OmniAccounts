@@ -51,7 +51,7 @@ const WalletCard = ({ wallet }: any) => {
     <Card className="shadow-md hover:shadow-xl">
       <CardContent className="flex justify-between items-center pt-4">
         <div className="flex flex-col gap-2">
-          <CardTitle>OmniAccount Wallet NFT#{wallet}</CardTitle>
+          <CardTitle>NFT Wallet #{wallet}</CardTitle>
           <div className="flex items-center gap-2">
             <CardDescription>Account: {nftAccount}</CardDescription>
             <div onClick={handleCopyToClipboard}>
