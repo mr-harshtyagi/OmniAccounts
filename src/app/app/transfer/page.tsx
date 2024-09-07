@@ -39,7 +39,7 @@ const Transfer = () => {
   const [nftWallets, setNftWallets] = useState<any[]>([]);
   const [formData, setFormData] = useState({
     chain: null,
-    nftWallet: "",
+    nftWallet: 0,
     amount: 0,
   });
 
@@ -143,9 +143,10 @@ const Transfer = () => {
             <Label htmlFor="nftWallet" className="font-semibold">
               NFT Wallet
             </Label>
-            <Input id="nftWallet"
-              type="text"
-              placeholder="0x....."
+            <Input
+              id="nftWallet"
+              type="number"
+              placeholder="0"
               className="col-span-3"
               value={formData.nftWallet}
               onChange={(e: { target: { value: any } }) =>
