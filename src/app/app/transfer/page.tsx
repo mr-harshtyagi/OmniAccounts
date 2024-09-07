@@ -80,9 +80,37 @@ const Transfer = () => {
     switchChain({ chainId: Number(value) });
   };
 
-  const handleBridgeClick = async () => {
+  const handleTransfer = async () => {
     console.log(formData);
   };
+
+  if (isLoading)
+    return (
+      <div className="py-8">
+        <div className="flex justify-start">
+          <Skeleton className="h-8 w-96 rounded-full" />
+        </div>
+        <div className="flex justify-center">
+          <div className="grid w-[40%] items-center gap-4 mt-24">
+            <div className="flex flex-col space-y-2">
+              <Skeleton className="h-2 w-28 rounded-full" />
+              <Skeleton className="h-8 w-[500px] rounded-full" />
+            </div>
+            <div className="flex flex-col space-y-2">
+              <Skeleton className="h-2 w-28 rounded-full" />
+              <Skeleton className="h-8 w-[500px] rounded-full" />
+            </div>
+            <div className="flex flex-col space-y-2">
+              <Skeleton className="h-2 w-28 rounded-full" />
+              <Skeleton className="h-8 w-[500px] rounded-full" />
+            </div>
+            <div className="flex justify-center">
+              <Skeleton className="mt-4 h-10 w-20 rounded-lg" />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
 
   return (
     <div className="py-8">
@@ -91,69 +119,70 @@ const Transfer = () => {
           Transfer ETH to Omnichain Accounts
         </p>
       </div>
+      <div className="flex justify-center">
+        <div className="grid w-[40%] items-center gap-4 mt-24">
+          <div className="flex flex-col space-y-2">
+            <Label className="font-semibold">Select your destination Chain</Label>
+            <Select
+              onValueChange={(value) => handleSelectionChange("chain", value)}
+            >
+              <SelectTrigger className="">
+                <SelectValue placeholder="Select Chain" />
+              </SelectTrigger>
+              <SelectContent>
+                {availableChains.map((chain) => (
+                  <SelectItem key={chain.id} value={chain.id.toString()}>
+                    {chain.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
 
-      <div className="flex flex-col space-y-4 items-center mt-28 w-full">
-        <div className="flex items-center space-x-4">
-          <Label className="font-semibold">Select your destination Chain</Label>
-          <Select
-            onValueChange={(value) => handleSelectionChange("chain", value)}
-          >
-            <SelectTrigger className="w-[200px]">
-              <SelectValue placeholder="Select Chain" />
-            </SelectTrigger>
-            <SelectContent>
-              {availableChains.map((chain) => (
-                <SelectItem key={chain.id} value={chain.id.toString()}>
-                  {chain.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+          <div className="flex flex-col space-y-2">
+            <Label htmlFor="nftWallet" className="font-semibold">
+              NFT Wallet
+            </Label>
+            <Input id="nftWallet"
+              type="text"
+              placeholder="0x....."
+              className="col-span-3"
+              value={formData.nftWallet}
+              onChange={(e: { target: { value: any } }) =>
+                setFormData({
+                  ...formData,
+                  nftWallet: e.target.value,
+                })
+              }
+              required />
+          </div>
 
-        <div className="flex items-center space-x-8">
-          <Label htmlFor="nftWallet" className="font-semibold">
-            NFT Wallet
-          </Label>
-          <Input id="nftWallet"
-            type="text"
-            placeholder="0x....."
-            className="col-span-3"
-            value={formData.nftWallet}
-            onChange={(e: { target: { value: any } }) =>
-              setFormData({
-                ...formData,
-                nftWallet: e.target.value,
-              })
-            }
-            required />
-        </div>
+          <div className="flex flex-col space-y-2">
+            <Label className="font-semibold"> Amount </Label>
+            <Input
+              id="amount"
+              type="number"
+              placeholder="0.0"
+              className="col-span-3 pl-4"
+              value={formData.amount}
+              onChange={(e: { target: { value: any } }) =>
+                setFormData({
+                  ...formData,
+                  amount: e.target.value,
+                })
+              }
+              required />
+          </div>
 
-        <div className="flex items-center space-x-4">
-          <Label className="font-semibold"> Amount </Label>
-          <Input
-            id="amount"
-            type="number"
-            placeholder="0.0"
-            className="col-span-3 pl-4"
-            value={formData.amount}
-            onChange={(e: { target: { value: any } }) =>
-              setFormData({
-                ...formData,
-                amount: e.target.value,
-              })
-            }
-            required />
-        </div>
-
-        <div className="flex justify-center">
-          <Button
-            className="mt-4"
-            onClick={handleBridgeClick}
-            disabled={isPending}
-          >
-            Bridge NFT
-          </Button>
+          <div className="flex justify-center">
+            <Button
+              className="mt-4"
+              onClick={handleTransfer}
+              disabled={isPending}
+            >
+              Transfer Funds
+            </Button>
+          </div>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import Navbar from "@/components/Navbar";
-import { FolderSyncIcon, RepeatIcon, WalletIcon } from "lucide-react";
+import { DollarSignIcon, FolderSyncIcon, RepeatIcon, WalletIcon } from "lucide-react";
 
 const links = [
   {
@@ -15,7 +15,7 @@ const links = [
   {
     href: "/app/transfer",
     text: "Transfer",
-    image: <FolderSyncIcon className="h-6 w-6" />,
+    image: <DollarSignIcon className="h-6 w-6" />,
   },
 ];
 
