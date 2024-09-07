@@ -1,5 +1,11 @@
+"use client";
 import Navbar from "@/components/Navbar";
-import { DollarSignIcon, FolderSyncIcon, RepeatIcon, WalletIcon } from "lucide-react";
+import {
+  DollarSignIcon,
+  FolderSyncIcon,
+  RepeatIcon,
+  WalletIcon,
+} from "lucide-react";
 
 const links = [
   {
