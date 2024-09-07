@@ -21,6 +21,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useWriteContract, useSwitchChain } from "wagmi";
 import { useToast } from "@/components/ui/use-toast";
 import { chainIdToContractAddress } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 const availableChains = [
   { id: baseSepolia.id, name: baseSepolia.name },
@@ -35,9 +37,10 @@ const Transfer = () => {
   const { chains, switchChain } = useSwitchChain();
   const currentChainId = useChainId();
   const [nftWallets, setNftWallets] = useState<any[]>([]);
-  const [selection, setSelection] = useState({
-    nft: null,
+  const [formData, setFormData] = useState({
     chain: null,
+    nftWallet: "",
+    amount: 0,
   });
 
   const { data: nftData, isLoading } = useReadContract({
@@ -69,7 +72,7 @@ const Transfer = () => {
   }, [isSuccess]);
 
   const handleSelectionChange = (field: string, value: string): any => {
-    setSelection((prevSelection) => ({
+    setFormData((prevSelection) => ({
       ...prevSelection,
       [field]: value,
     }));
@@ -78,7 +81,7 @@ const Transfer = () => {
   };
 
   const handleBridgeClick = async () => {
-    console.log(selection);
+    console.log(formData);
   };
 
   return (
@@ -91,11 +94,11 @@ const Transfer = () => {
 
       <div className="flex flex-col space-y-4 items-center mt-28 w-full">
         <div className="flex items-center space-x-4">
-          <p className="font-semibold">Select your destination Chain</p>
+          <Label className="font-semibold">Select your destination Chain</Label>
           <Select
             onValueChange={(value) => handleSelectionChange("chain", value)}
           >
-            <SelectTrigger className="w-[400px]">
+            <SelectTrigger className="w-[200px]">
               <SelectValue placeholder="Select Chain" />
             </SelectTrigger>
             <SelectContent>
@@ -104,49 +107,43 @@ const Transfer = () => {
                   {chain.name}
                 </SelectItem>
               ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="flex items-center space-x-4">
-          <p className="font-semibold  pr-2">NFT Wallet</p>
-          <Select
-            onValueChange={(value) => handleSelectionChange("nft", value)}
-          >
-            <SelectTrigger className="w-[400px]">
-              <SelectValue placeholder="Select NFT" />
-            </SelectTrigger>
-            <SelectContent>
-              {nftWallets.length > 0 ? (
-                nftWallets.map((wallet) => (
-                  <SelectItem key={wallet} value={wallet}>
-                    NFT Wallet #{Number(wallet)}
-                  </SelectItem>
-                ))
-              ) : (
-                <SelectItem disabled value="No NFTs Available">
-                  No NFTs available
-                </SelectItem>
-              )}
             </SelectContent>
           </Select>
         </div>
 
+        <div className="flex items-center space-x-8">
+          <Label htmlFor="nftWallet" className="font-semibold">
+            NFT Wallet
+          </Label>
+          <Input id="nftWallet"
+            type="text"
+            placeholder="0x....."
+            className="col-span-3"
+            value={formData.nftWallet}
+            onChange={(e: { target: { value: any } }) =>
+              setFormData({
+                ...formData,
+                nftWallet: e.target.value,
+              })
+            }
+            required />
+        </div>
+
         <div className="flex items-center space-x-4">
-          <p className="font-semibold"> Amount </p>
-          <Select
-            onValueChange={(value) => handleSelectionChange("chain", value)}
-          >
-            <SelectTrigger className="w-[400px]">
-              <SelectValue placeholder="Select Chain" />
-            </SelectTrigger>
-            <SelectContent>
-              {availableChains.map((chain) => (
-                <SelectItem key={chain.id} value={chain.id.toString()}>
-                  {chain.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <Label className="font-semibold"> Amount </Label>
+          <Input
+            id="amount"
+            type="number"
+            placeholder="0.0"
+            className="col-span-3 pl-4"
+            value={formData.amount}
+            onChange={(e: { target: { value: any } }) =>
+              setFormData({
+                ...formData,
+                amount: e.target.value,
+              })
+            }
+            required />
         </div>
 
         <div className="flex justify-center">
