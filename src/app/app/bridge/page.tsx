@@ -20,7 +20,8 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { useWriteContract } from "wagmi";
 import { useToast } from "@/components/ui/use-toast";
-import { chainIdToContractAddress } from "@/lib/utils";
+import { chainIdToContractAddress, chainIdToEid } from "@/lib/utils";
+import { getContract, createPublicClient, http, pad } from "viem";
 
 const availableChains = [
   { id: baseSepolia.id, name: baseSepolia.name },
@@ -30,7 +31,7 @@ const availableChains = [
 ];
 
 const Bridge = () => {
-  const { address, chainId } = useAccount();
+  const { address, chainId, chain } = useAccount();
   const { toast } = useToast();
   const currentChainId = useChainId();
   const [nftWallets, setNftWallets] = useState<any[]>([]);
@@ -78,6 +79,34 @@ const Bridge = () => {
 
   const handleBridgeClick = async () => {
     console.log(selection);
+
+    const onftContract = getContract({
+      abi,
+      address: chainIdToContractAddress(chainId) as `0x${string}`,
+      client: createPublicClient({
+        chain: chain,
+        transport: http(),
+      }),
+    });
+
+    // Defining extra message execution options for the send operation
+    // const options = Options.newOptions()
+    //   .addExecutorLzReceiveOption(200000, 0)
+    //   .toHex()
+    //   .toString();
+
+    const sendParam = [
+      chainIdToEid(Number(selection.chain)),
+      pad(address as `0x${string}`),
+      selection.nft,
+      // options,
+      "0x",
+      "0x",
+    ];
+
+    const result = await onftContract.read.name();
+    console.log(result);
+    console.log(sendParam);
   };
 
   return (

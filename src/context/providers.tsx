@@ -3,7 +3,7 @@
 import React from "react";
 import "@rainbow-me/rainbowkit/styles.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { WagmiProvider, http } from "wagmi";
+import { WagmiProvider } from "wagmi";
 import {
   baseSepolia,
   arbitrumSepolia,

@@ -25,3 +25,18 @@ export function chainIdToContractAddress(chainId: number | undefined) {
       return sepoliaAddress;
   }
 }
+
+export function chainIdToEid(chainId: number | undefined) {
+  switch (chainId) {
+    case 111155111:
+      return 40161;
+    case 421614:
+      return 40231;
+    case 11155420:
+      return 40232;
+    case 84532:
+      return 40245;
+    default:
+      return 1;
+  }
+}
