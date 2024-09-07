@@ -11,8 +11,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CopyIcon, FileCheckIcon } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -32,6 +32,7 @@ import Spinner from "@/components/Spinner";
 import { Core } from "@walletconnect/core";
 import { Web3Wallet, Web3WalletTypes } from "@walletconnect/web3wallet";
 import { buildApprovedNamespaces, getSdkError } from "@walletconnect/utils";
+import { chainIdToContractAddress } from "@/lib/utils";
 
 interface FormData {
   recipientAddress: string;
@@ -55,6 +56,8 @@ const WalletOverview = () => {
   });
   const [isPairing, setIsPairing] = useState(false);
   const [walletConnectUri, setWalletConnectUri] = useState("");
+
+  const omniAccountWalletNFTAddress = chainIdToContractAddress(chainId);
 
   const tokenboundClient = new TokenboundClient({
     signer,
@@ -81,21 +84,20 @@ const WalletOverview = () => {
     router.push(chain?.blockExplorers?.default.url + `/address/${nftAccount}`);
   };
 
-  // const getAccount = async () => {
-  //   // setTokenboundClient(tokenboundClient);
-  //   const account = tokenboundClient.getAccount({
-  //     tokenContract: omniAccountWalletNFTAddress as `0x${string}`,
-  //     tokenId: walletId as string,
-  //   });
-  //   const isAccountDeployed = await tokenboundClient.checkAccountDeployment({
-  //     accountAddress: account,
-  //   });
-  //   setNftAccount(account);
+  const getAccount = async () => {
+    const account = tokenboundClient.getAccount({
+      tokenContract: omniAccountWalletNFTAddress as `0x${string}`,
+      tokenId: walletId as string,
+    });
+    const isAccountDeployed = await tokenboundClient.checkAccountDeployment({
+      accountAddress: account,
+    });
+    setNftAccount(account);
 
-  //   setIsAccountActive(isAccountDeployed);
+    setIsAccountActive(isAccountDeployed);
 
-  //   console.log(account);
-  // };
+    console.log(account);
+  };
 
   const pair = async () => {
     setIsPairing(true);
@@ -113,10 +115,6 @@ const WalletOverview = () => {
         icons: [],
       },
     });
-
-    // await web3wallet.core.pairing.pair({
-    //   uri: walletConnectUri,
-    // });
 
     console.log("web3wallet", web3wallet);
 
@@ -219,12 +217,12 @@ const WalletOverview = () => {
       variant: "default",
     });
     try {
-      // console.log("Creating account", omniAccountWalletNFTAddress, walletId);
-      // const createdAccount = await tokenboundClient.createAccount({
-      //   tokenContract: omniAccountWalletNFTAddress as `0x${string}`, // nft token contract address
-      //   tokenId: walletId as string,
-      // });
-      // console.log(createdAccount);
+      console.log("Creating account", omniAccountWalletNFTAddress, walletId);
+      const createdAccount = await tokenboundClient.createAccount({
+        tokenContract: omniAccountWalletNFTAddress as `0x${string}`, // nft token contract address
+        tokenId: walletId as string,
+      });
+      console.log(createdAccount);
       toast({
         title: "NFT Wallet Activated!",
         description: "Your account has been created successfully",
@@ -281,15 +279,14 @@ const WalletOverview = () => {
     }
   };
 
-  // useEffect(() => {
-  //   getAccount();
-  // }, []);
+  useEffect(() => {
+    getAccount();
+  }, []);
 
   const handleResetForm = () => ({
     recipientAddress: "",
     amount: "",
   });
-
 
   return (
     <div className=" pt-8 px-12">
@@ -305,7 +302,9 @@ const WalletOverview = () => {
       </div>
       <div className=" flex justify-between py-8">
         <div className="flex flex-col gap-2">
-          <div className="text-3xl font-medium">OmniAccount Wallet NFT#{walletId}</div>
+          <div className="text-3xl font-medium">
+            OmniAccount Wallet NFT#{walletId}
+          </div>
           <div className="flex items-center gap-2">
             <div className="text-md text-muted-foreground">
               Account:
