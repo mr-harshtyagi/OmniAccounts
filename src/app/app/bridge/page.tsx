@@ -90,6 +90,14 @@ const Bridge = () => {
   };
 
   const handleBridgeClick = async () => {
+    if (!selection.nft || !selection.chain) {
+      toast({
+        title: "Oops!",
+        description: "Please select both an NFT and a destination chain to proceed.",
+        variant: "destructive",
+      });
+      return;
+    }
     console.log(selection);
 
     const onftContract = getContract({
@@ -165,6 +173,7 @@ const Bridge = () => {
           <p className="font-semibold  pr-2">Select your NFT</p>
           <Select
             onValueChange={(value) => handleSelectionChange("nft", value)}
+            required
           >
             <SelectTrigger className="w-[400px]">
               <SelectValue placeholder="Select NFT" />
@@ -189,6 +198,7 @@ const Bridge = () => {
           <p className="font-semibold">Destination Chain</p>
           <Select
             onValueChange={(value) => handleSelectionChange("chain", value)}
+            required
           >
             <SelectTrigger className="w-[400px]">
               <SelectValue placeholder="Select Chain" />

@@ -92,8 +92,17 @@ const Transfer = () => {
   };
 
   const handleTransfer = async () => {
+
     console.log(formData);
     const { chain, nftWallet, amount } = formData;
+    if (!chain || !nftWallet || !amount) {
+      toast({
+        title: "Oops!",
+        description: "Please fill in all fields to proceed with the transfer.",
+        variant: "destructive",
+      });
+      return;
+    }
     const to = tokenboundClient.getAccount({
       tokenContract: chainIdToContractAddress(chainId) as `0x${string}`,
       tokenId: String(nftWallet),
@@ -101,34 +110,6 @@ const Transfer = () => {
     sendTransaction({ to, value: parseEther(String(amount)) });
     // console.log(to, parseEther(String(amount)));
   };
-
-  // if (isLoading)
-  //   return (
-  //     <div className="py-8">
-  //       <div className="flex justify-start">
-  //         <Skeleton className="h-8 w-96 rounded-full" />
-  //       </div>
-  //       <div className="flex justify-center">
-  //         <div className="grid w-[40%] items-center gap-4 mt-24">
-  //           <div className="flex flex-col space-y-2">
-  //             <Skeleton className="h-2 w-28 rounded-full" />
-  //             <Skeleton className="h-8 w-[500px] rounded-full" />
-  //           </div>
-  //           <div className="flex flex-col space-y-2">
-  //             <Skeleton className="h-2 w-28 rounded-full" />
-  //             <Skeleton className="h-8 w-[500px] rounded-full" />
-  //           </div>
-  //           <div className="flex flex-col space-y-2">
-  //             <Skeleton className="h-2 w-28 rounded-full" />
-  //             <Skeleton className="h-8 w-[500px] rounded-full" />
-  //           </div>
-  //           <div className="flex justify-center">
-  //             <Skeleton className="mt-4 h-10 w-20 rounded-lg" />
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
 
   return (
     <div className="py-8">
