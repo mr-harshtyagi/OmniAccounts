@@ -2,13 +2,15 @@
 
 import React, { useEffect } from "react";
 import { Button } from "../ui/button";
-import { useAccount, useWriteContract } from "wagmi";
+import { useAccount, useWriteContract, useSwitchChain } from "wagmi";
 import { useToast } from "../ui/use-toast";
 import { chainIdToContractAddress } from "@/lib/utils";
 import { abi } from "@/lib/contracts/NFTWallet.json";
 
 const CreateWallet = () => {
   const { address, chainId } = useAccount();
+  const { chains, switchChain } = useSwitchChain();
+  const [onHubChain, setOnHubChain] = React.useState<boolean>(false);
   const { toast } = useToast();
   const { isPending, isSuccess, error, writeContract } = useWriteContract();
 
@@ -57,11 +59,29 @@ const CreateWallet = () => {
     }
   }, [isSuccess]);
 
+  useEffect(() => {
+    if (chainId == 11155111) {
+      setOnHubChain(true);
+    }
+  }, [chainId]);
+
   return (
     <div>
-      <Button className="rounded-[10px] font-semibold" onClick={handleNFTmint}>
-        + Mint OmniAccount NFT Wallet
-      </Button>
+      {onHubChain ? (
+        <Button
+          className="rounded-[10px] font-semibold"
+          onClick={handleNFTmint}
+        >
+          + Mint OmniAccount NFT Wallet
+        </Button>
+      ) : (
+        <Button
+          className="rounded-[10px] font-semibold"
+          onClick={() => switchChain({ chainId: 11155111 })}
+        >
+          Switch to Hub Chain to create NFT Wallet
+        </Button>
+      )}
     </div>
   );
 };

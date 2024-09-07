@@ -18,7 +18,7 @@ import {
   optimismSepolia,
 } from "wagmi/chains";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useWriteContract } from "wagmi";
+import { useWriteContract, useSwitchChain } from "wagmi";
 import { useToast } from "@/components/ui/use-toast";
 import { chainIdToContractAddress } from "@/lib/utils";
 
@@ -29,9 +29,10 @@ const availableChains = [
   { id: optimismSepolia.id, name: optimismSepolia.name },
 ];
 
-const Bridge = () => {
+const Transfer = () => {
   const { address, chainId } = useAccount();
   const { toast } = useToast();
+  const { chains, switchChain } = useSwitchChain();
   const currentChainId = useChainId();
   const [nftWallets, setNftWallets] = useState<any[]>([]);
   const [selection, setSelection] = useState({
@@ -67,13 +68,13 @@ const Bridge = () => {
     }
   }, [isSuccess]);
 
-  const filteredChains = availableChains.filter((c) => c.id !== currentChainId);
-
   const handleSelectionChange = (field: string, value: string): any => {
     setSelection((prevSelection) => ({
       ...prevSelection,
       [field]: value,
     }));
+
+    switchChain({ chainId: Number(value) });
   };
 
   const handleBridgeClick = async () => {
@@ -83,11 +84,31 @@ const Bridge = () => {
   return (
     <div className="py-8">
       <div className="flex justify-start">
-        <p className="text-3xl font-medium">Bridge your NFT Wallet</p>
+        <p className="text-3xl font-medium">
+          Transfer ETH to Omnichain Accounts
+        </p>
       </div>
+
       <div className="flex flex-col space-y-4 items-center mt-28 w-full">
         <div className="flex items-center space-x-4">
-          <p className="font-semibold  pr-2">Select your NFT</p>
+          <p className="font-semibold">Select your destination Chain</p>
+          <Select
+            onValueChange={(value) => handleSelectionChange("chain", value)}
+          >
+            <SelectTrigger className="w-[400px]">
+              <SelectValue placeholder="Select Chain" />
+            </SelectTrigger>
+            <SelectContent>
+              {availableChains.map((chain) => (
+                <SelectItem key={chain.id} value={chain.id.toString()}>
+                  {chain.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="flex items-center space-x-4">
+          <p className="font-semibold  pr-2">NFT Wallet</p>
           <Select
             onValueChange={(value) => handleSelectionChange("nft", value)}
           >
@@ -111,7 +132,7 @@ const Bridge = () => {
         </div>
 
         <div className="flex items-center space-x-4">
-          <p className="font-semibold">Destination Chain</p>
+          <p className="font-semibold"> Amount </p>
           <Select
             onValueChange={(value) => handleSelectionChange("chain", value)}
           >
@@ -119,7 +140,7 @@ const Bridge = () => {
               <SelectValue placeholder="Select Chain" />
             </SelectTrigger>
             <SelectContent>
-              {filteredChains.map((chain) => (
+              {availableChains.map((chain) => (
                 <SelectItem key={chain.id} value={chain.id.toString()}>
                   {chain.name}
                 </SelectItem>
@@ -127,6 +148,7 @@ const Bridge = () => {
             </SelectContent>
           </Select>
         </div>
+
         <div className="flex justify-center">
           <Button
             className="mt-4"
@@ -141,4 +163,4 @@ const Bridge = () => {
   );
 };
 
-export default Bridge;
+export default Transfer;
