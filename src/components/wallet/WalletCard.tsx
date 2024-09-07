@@ -8,7 +8,7 @@ import { CopyIcon, FileCheckIcon } from "lucide-react";
 import { TokenboundClient } from "@tokenbound/sdk";
 import { useEthersSigner } from "@/hooks/useEthersSigner";
 import { useAccount, useBalance } from "wagmi";
-
+import { chainIdToContractAddress } from "@/lib/utils";
 
 const WalletCard = ({ wallet }: any) => {
   const router = useRouter();
@@ -32,20 +32,20 @@ const WalletCard = ({ wallet }: any) => {
     setTimeout(() => setCopied(false), 2000); // Reset after 2 seconds
   };
 
-  // const getAccount = () => {
-  //   const account = tokenboundClient.getAccount({
-  //     tokenContract: OmniAccountWalletNFTAddress as `0x${string}`,
-  //     tokenId: wallet as string
-  //   });
+  const getAccount = () => {
+    const account = tokenboundClient.getAccount({
+      tokenContract: chainIdToContractAddress(chainId) as `0x${string}`,
+      tokenId: wallet as string,
+    });
 
-  //   setNftAccount(account);
+    setNftAccount(account);
 
-  //   console.log(account);
-  // };
+    console.log(account);
+  };
 
-  // useEffect(() => {
-  //   getAccount();
-  // }, []);
+  useEffect(() => {
+    getAccount();
+  }, []);
 
   return (
     <Card className="shadow-md hover:shadow-xl">

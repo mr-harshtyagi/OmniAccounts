@@ -4,21 +4,22 @@ import React, { useEffect } from "react";
 import { Button } from "../ui/button";
 import { useAccount, useWriteContract } from "wagmi";
 import { useToast } from "../ui/use-toast";
-
+import { chainIdToContractAddress } from "@/lib/utils";
+import { abi } from "@/lib/contracts/NFTWallet.json";
 
 const CreateWallet = () => {
-  const { address: walletAddress } = useAccount();
+  const { address, chainId } = useAccount();
   const { toast } = useToast();
   const { isPending, isSuccess, error, writeContract } = useWriteContract();
 
   const handleNFTmint = async () => {
     try {
-      // writeContract({
-      //   address: address as `0x${string}`,
-      //   abi: abi,
-      //   functionName: "safeMint",
-      //   args: [walletAddress],
-      // });
+      writeContract({
+        address: chainIdToContractAddress(chainId) as `0x${string}`,
+        abi: abi,
+        functionName: "mintWallet",
+        args: [address],
+      });
     } catch (error) {
       toast({
         variant: "destructive",

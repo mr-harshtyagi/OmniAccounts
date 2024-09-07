@@ -9,34 +9,36 @@ import { useAccount, useBalance } from "wagmi";
 import { useReadContract } from "wagmi";
 import { Skeleton } from "@/components/ui/skeleton";
 import Spinner from "@/components/Spinner";
+import { abi } from "@/lib/contracts/NFTWallet.json";
+import { chainIdToContractAddress } from "@/lib/utils";
 
 const Wallets = () => {
-  const { address } = useAccount();
+  const { address, chainId } = useAccount();
   const [nftWallets, setNftWallets] = React.useState<any[]>([]);
 
-  // const { data: nftData, isLoading } = useReadContract({
-  //   abi,
-  //   address: OmniAccountWalletNFTAddress as `0x${string}`,
-  //   functionName: "getAllOmniAccountWalletNFTsForUser",
-  //   args: [address],
-  // });
+  const { data: nftData, isLoading } = useReadContract({
+    abi,
+    address: chainIdToContractAddress(chainId) as `0x${string}`,
+    functionName: "getUserTokens",
+    args: [address],
+  });
 
-  // useEffect(() => {
-  //   console.log(nftData);
-  //   if (nftData) {
-  //     setNftWallets(nftData as string[]);
-  //   } else {
-  //     setNftWallets([]);
-  //   }
-  // }, [nftData]);
+  useEffect(() => {
+    console.log(nftData);
+    if (nftData) {
+      setNftWallets(nftData as string[]);
+    } else {
+      setNftWallets([]);
+    }
+  }, [nftData]);
 
-  // if (isLoading) {
-  //   return (
-  //     <div className="flex justify-center items-center mt-40">
-  //       <Spinner />
-  //     </div>
-  //   );
-  // }
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center mt-40">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -66,7 +68,7 @@ const Wallets = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Wallets
+export default Wallets;
