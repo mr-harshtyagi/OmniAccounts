@@ -22,6 +22,8 @@ import { useWriteContract } from "wagmi";
 import { useToast } from "@/components/ui/use-toast";
 import { chainIdToContractAddress, chainIdToEid } from "@/lib/utils";
 import { getContract, createPublicClient, http, pad } from "viem";
+//@ts-ignore
+import { Options } from "@layerzerolabs/lz-v2-utilities";
 
 const availableChains = [
   { id: baseSepolia.id, name: baseSepolia.name },
@@ -90,23 +92,33 @@ const Bridge = () => {
     });
 
     // Defining extra message execution options for the send operation
-    // const options = Options.newOptions()
-    //   .addExecutorLzReceiveOption(200000, 0)
-    //   .toHex()
-    //   .toString();
+    const options = Options.newOptions()
+      .addExecutorLzReceiveOption(200000, 0)
+      .toHex()
+      .toString();
 
     const sendParam = [
       chainIdToEid(Number(selection.chain)),
       pad(address as `0x${string}`),
       selection.nft,
-      // options,
+      options,
       "0x",
       "0x",
     ];
 
-    const result = await onftContract.read.name();
-    console.log(result);
-    console.log(sendParam);
+    const result = await onftContract.read.quoteSend([sendParam, false]);
+
+    //@ts-ignore
+    const nativeFee: number = result?.nativeFee;
+    writeContract({
+      address: chainIdToContractAddress(chainId) as `0x${string}`,
+      abi,
+      functionName: "send",
+      args: [sendParam, [nativeFee, 0], address],
+      value: BigInt(nativeFee),
+    });
+
+    console.log([sendParam, nativeFee, false], BigInt(nativeFee));
   };
 
   return (

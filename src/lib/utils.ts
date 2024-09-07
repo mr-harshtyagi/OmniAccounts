@@ -28,7 +28,7 @@ export function chainIdToContractAddress(chainId: number | undefined) {
 
 export function chainIdToEid(chainId: number | undefined) {
   switch (chainId) {
-    case 111155111:
+    case 11155111:
       return 40161;
     case 421614:
       return 40231;
