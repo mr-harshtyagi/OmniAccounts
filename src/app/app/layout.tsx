@@ -16,7 +16,7 @@ const links = [
   },
 ];
 
-export default function Creator({
+export default function AppLayout({
   children,
 }: {
   children: React.ReactNode
