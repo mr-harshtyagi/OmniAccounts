@@ -33,7 +33,7 @@ import { Core } from "@walletconnect/core";
 import { Web3Wallet, Web3WalletTypes } from "@walletconnect/web3wallet";
 import { buildApprovedNamespaces, getSdkError } from "@walletconnect/utils";
 import { chainIdToContractAddress } from "@/lib/utils";
-import TransferComponent from "@/components/transfer/TransferComponent";
+import TransferComponentWallet from "@/components/wallet/TransferComponentWallet";
 
 interface FormData {
   recipientAddress: string;
@@ -433,8 +433,8 @@ const WalletOverview = () => {
                 </DialogHeader>
                 {!transferType && (
                   <div className="flex flex-col gap-2">
-                    <Button onClick={() => setTransferType('Address')}>Transfer ETH to Address</Button>
                     <Button onClick={() => setTransferType('NFT')}>Transfer ETH to NFT Wallet</Button>
+                    <Button onClick={() => setTransferType('Address')}>Transfer ETH to Address</Button>
                   </div>
                 )}
                 {transferType && (
@@ -510,7 +510,7 @@ const WalletOverview = () => {
                   </form>
                 )}
 
-                {transferType === 'NFT' && <TransferComponent />}
+                {transferType === 'NFT' && <TransferComponentWallet />}
               </DialogContent>
             </Dialog>
           </div>
