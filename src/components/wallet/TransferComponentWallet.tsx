@@ -33,15 +33,9 @@ const availableChains = [
   { id: optimismSepolia.id, name: optimismSepolia.name },
 ];
 
-const TransferComponentWallet = () => {
+const TransferComponentWallet = ({ walletId }: any) => {
   const { address, chainId, chain } = useAccount();
-  const {
-    data: hash,
-    sendTransaction,
-    isPending,
-    isSuccess,
-    error,
-  } = useSendTransaction();
+
   const { toast } = useToast();
   const { switchChain } = useSwitchChain();
   const [tokenboundClient, setTokenboundClient] = useState<any>(null);
@@ -49,36 +43,9 @@ const TransferComponentWallet = () => {
     nftWallet: "",
     amount: "",
   });
+  const [isTransferring, setIsTransferring] = useState(false);
 
   const signer = useEthersSigner({ chainId: chainId });
-
-  useEffect(() => {
-    if (isSuccess) {
-      toast({
-        variant: "success",
-        title: "Transfer Successful",
-        description: `${formData.amount} ETH transferred successfully!`,
-      });
-    }
-  }, [isSuccess]);
-
-  useEffect(() => {
-    if (error)
-      toast({
-        title: "Oops!",
-        description: "Error. Please try again!",
-        variant: "destructive",
-      });
-  }, [error]);
-
-  // const handleSelectionChange = (field: string, value: string): any => {
-  //   setFormData((prevSelection: any) => ({
-  //     ...prevSelection,
-  //     [field]: value,
-  //   }));
-
-  //   switchChain({ chainId: Number(value) });
-  // };
 
   const handleTransfer = async () => {
     console.log(formData);
@@ -96,7 +63,43 @@ const TransferComponentWallet = () => {
       tokenContract: chainIdToContractAddress(chainId) as `0x${string}`,
       tokenId: String(nftWallet),
     });
-    sendTransaction({ to, value: parseEther(String(amount)) });
+
+    const from = tokenboundClient.getAccount({
+      tokenContract: chainIdToContractAddress(chainId) as `0x${string}`,
+      tokenId: String(walletId),
+    });
+
+    setIsTransferring(true);
+    try {
+      const executedTransfer = await tokenboundClient.transferETH({
+        account: from,
+        recipientAddress: to as `0x${string}`,
+        amount: Number(formData.amount),
+      });
+
+      toast({
+        title: "Transfer Successful",
+        description: `Sent ${formData.amount} ETH to ${formData.recipientAddress}`,
+        duration: 3000,
+        variant: "success",
+      });
+    } catch (error) {
+      console.error("Transfer failed", error);
+      toast({
+        title: "Transfer Failed",
+        description:
+          "There was an issue with the transaction. Please try again.",
+        duration: 3000,
+        variant: "destructive",
+      });
+    } finally {
+      setIsTransferring(false);
+      setFormData({
+        recipientAddress: "",
+        amount: 0,
+      });
+    }
+
     // console.log(to, parseEther(String(amount)));
     setFormData({
       nftWallet: "",
@@ -113,29 +116,8 @@ const TransferComponentWallet = () => {
   }, [signer, chain]);
 
   return (
-
     <div className="w-full">
       <div className="grid items-center gap-4">
-        {/* <div className="flex flex-col space-y-2">
-          <Label className="font-semibold">
-            Select your destination Chain
-          </Label>
-          <Select
-            onValueChange={(value) => handleSelectionChange("chain", value)}
-          >
-            <SelectTrigger className="">
-              <SelectValue placeholder="Select Chain" />
-            </SelectTrigger>
-            <SelectContent>
-              {availableChains.map((chain) => (
-                <SelectItem key={chain.id} value={chain.id.toString()}>
-                  {chain.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div> */}
-
         <div className="flex flex-col space-y-2">
           <Label htmlFor="nftWallet" className="font-semibold">
             NFT Wallet ID
@@ -178,7 +160,7 @@ const TransferComponentWallet = () => {
           <Button
             className="mt-4"
             onClick={handleTransfer}
-            disabled={isPending}
+            disabled={isTransferring}
           >
             Transfer Funds
           </Button>

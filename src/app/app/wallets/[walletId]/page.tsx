@@ -19,7 +19,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { TokenboundClient } from "@tokenbound/sdk";
 import { useEthersSigner } from "@/hooks/useEthersSigner";
-import { useAccount, useBalance } from "wagmi";
+import { useAccount } from "wagmi";
 import { http, createPublicClient, formatEther } from "viem";
 
 import {
@@ -75,6 +75,8 @@ const WalletOverview = () => {
     const balance = await publicClient.getBalance({
       address: nftAccount as `0x${string}`,
     });
+    console.log(balance);
+
     setBalance(formatEther(balance));
   }
 
@@ -315,9 +317,7 @@ const WalletOverview = () => {
     getAccount(tokenboundClient);
   }, []);
 
-  const handleReset = () => (
-    setTransferType(null)
-  );
+  const handleReset = () => setTransferType(null);
 
   return (
     <div className=" pt-8 px-12">
@@ -529,7 +529,9 @@ const WalletOverview = () => {
                   </form>
                 )}
 
-                {transferType === "NFT" && <TransferComponentWallet />}
+                {transferType === "NFT" && (
+                  <TransferComponentWallet walletId={walletId} />
+                )}
               </DialogContent>
             </Dialog>
           </div>
