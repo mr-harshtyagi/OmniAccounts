@@ -98,6 +98,10 @@ const TransferComponentWallet = () => {
     });
     sendTransaction({ to, value: parseEther(String(amount)) });
     // console.log(to, parseEther(String(amount)));
+    setFormData({
+      nftWallet: "",
+      amount: "",
+    });
   };
 
   useEffect(() => {
@@ -134,7 +138,7 @@ const TransferComponentWallet = () => {
 
         <div className="flex flex-col space-y-2">
           <Label htmlFor="nftWallet" className="font-semibold">
-            NFT Wallet
+            NFT Wallet ID
           </Label>
           <Input
             id="nftWallet"

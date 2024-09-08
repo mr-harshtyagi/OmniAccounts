@@ -435,7 +435,7 @@ const WalletOverview = () => {
                 </DialogHeader>
                 {!transferType && (
                   <div className="flex flex-col gap-2">
-                    <Button onClick={() => setTransferType('NFT')}>Transfer ETH to NFT Wallet</Button>
+                    <Button onClick={() => setTransferType('NFT')}>Transfer ETH to NFT Wallet ID</Button>
                     <Button onClick={() => setTransferType('Address')}>Transfer ETH to Address</Button>
                   </div>
                 )}

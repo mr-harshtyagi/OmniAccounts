@@ -135,7 +135,7 @@ const TransferComponent = () => {
 
         <div className="flex flex-col space-y-2">
           <Label htmlFor="nftWallet" className="font-semibold">
-            NFT Wallet
+            NFT Wallet ID
           </Label>
           <Input
             id="nftWallet"
