@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { CopyIcon, FileCheckIcon } from "lucide-react";
+import { ArrowLeftIcon, CopyIcon, FileCheckIcon } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { TokenboundClient } from "@tokenbound/sdk";
@@ -33,6 +33,7 @@ import { Core } from "@walletconnect/core";
 import { Web3Wallet, Web3WalletTypes } from "@walletconnect/web3wallet";
 import { buildApprovedNamespaces, getSdkError } from "@walletconnect/utils";
 import { chainIdToContractAddress } from "@/lib/utils";
+import TransferComponent from "@/components/transfer/TransferComponent";
 
 interface FormData {
   recipientAddress: string;
@@ -48,6 +49,7 @@ const WalletOverview = () => {
   const [isAccountActive, setIsAccountActive] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
   const [isTransferring, setIsTransferring] = useState(false);
+  const [transferType, setTransferType] = useState<'Address' | 'NFT' | null>(null);
   const { address, chainId, chain } = useAccount();
   const signer = useEthersSigner({ chainId: chainId });
   const [formData, setFormData] = useState<FormData>({
@@ -284,6 +286,15 @@ const WalletOverview = () => {
     }
   };
 
+  const goBack = () => {
+    setTransferType(null);
+    setIsTransferring(false);
+    setFormData({
+      recipientAddress: '',
+      amount: 0,
+    });
+  };
+
   useEffect(() => {
     getAccount();
   }, []);
@@ -352,7 +363,7 @@ const WalletOverview = () => {
         </div>
         {isAccountActive ? (
           <div className="flex gap-8 items-center justify-center">
-            {/* TO DO : 🟡 */}
+            {/* connect wallet to dapp */}
             <Dialog>
               <DialogTrigger asChild>
                 <Button>Connect Wallet to Dapp</Button>
@@ -413,73 +424,93 @@ const WalletOverview = () => {
               <DialogTrigger asChild>
                 <Button onClick={handleResetForm}>Transfer ETH</Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
+              <DialogContent className="sm:max-w-[425px]  ">
                 <DialogHeader>
                   <DialogTitle>Transfer ETH</DialogTitle>
                   <DialogDescription>
                     Enter the required details to transfer ETH.
                   </DialogDescription>
                 </DialogHeader>
-                <form onSubmit={transferETH}>
-                  {!isTransferring && (
-                    <>
-                      <div className="grid gap-4 py-4">
-                        <div className="grid grid-cols-4 items-center gap-4">
-                          <Label
-                            htmlFor="recipientAddress"
-                            className="text-right"
-                          >
-                            Recipient Address
-                          </Label>
-                          <Input
-                            id="recipientAddress"
-                            type="text"
-                            placeholder="0x..."
-                            className="col-span-3"
-                            value={formData.recipientAddress}
-                            onChange={(e: { target: { value: any } }) =>
-                              setFormData({
-                                ...formData,
-                                recipientAddress: e.target.value,
-                              })
-                            }
-                            required
-                          />
+                {!transferType && (
+                  <div className="flex flex-col gap-2">
+                    <Button onClick={() => setTransferType('Address')}>Transfer ETH to Address</Button>
+                    <Button onClick={() => setTransferType('NFT')}>Transfer ETH to NFT Wallet</Button>
+                  </div>
+                )}
+                {transferType && (
+                  <div className="w-full flex justify-between items-center">
+                    <Button className="" variant='ghost' onClick={goBack}>
+                      <ArrowLeftIcon className="h-4 w-4" />
+                    </Button>
+                    <p className="text-sm font-semibold text-muted-foreground">
+                      Send ETH to {transferType}
+                    </p>
+                    <p></p>
+                  </div>
+                )}
+                {transferType === 'Address' && (
+                  <form onSubmit={transferETH}>
+                    {!isTransferring ? (
+                      <>
+                        <div className="grid gap-4 py-4">
+                          <div className="grid grid-cols-4 items-center gap-4">
+                            <Label
+                              htmlFor="recipientAddress"
+                              className="text-right"
+                            >
+                              Recipient Address
+                            </Label>
+                            <Input
+                              id="recipientAddress"
+                              type="text"
+                              placeholder="0x..."
+                              className="col-span-3"
+                              value={formData.recipientAddress}
+                              onChange={(e: { target: { value: any } }) =>
+                                setFormData({
+                                  ...formData,
+                                  recipientAddress: e.target.value,
+                                })
+                              }
+                              required
+                            />
+                          </div>
+                          <div className="grid grid-cols-4 items-center gap-4">
+                            <Label htmlFor="amount" className="text-right">
+                              Amount
+                            </Label>
+                            <Input
+                              id="amount"
+                              placeholder="0.00"
+                              className="col-span-3"
+                              type="number"
+                              value={formData.amount}
+                              onChange={(e: { target: { value: any } }) =>
+                                setFormData({
+                                  ...formData,
+                                  amount: e.target.value,
+                                })
+                              }
+                              required
+                            />
+                          </div>
                         </div>
-                        <div className="grid grid-cols-4 items-center gap-4">
-                          <Label htmlFor="amount" className="text-right">
-                            Amount
-                          </Label>
-                          <Input
-                            id="amount"
-                            placeholder="0.00"
-                            className="col-span-3"
-                            type="number"
-                            value={formData.amount}
-                            onChange={(e: { target: { value: any } }) =>
-                              setFormData({
-                                ...formData,
-                                amount: e.target.value,
-                              })
-                            }
-                            required
-                          />
-                        </div>
+                        <Button type="submit" className="w-full">
+                          Transfer ETH
+                        </Button>
+                      </>
+                    ) : (
+                      <div className="flex flex-col gap-3 items-center justify-center mt-4 text-center">
+                        <Spinner />
+                        <p className="text-sm font-semibold text-muted-foreground">
+                          Transfer in progress....
+                        </p>
                       </div>
-                      <Button type="submit" className="w-full">
-                        Transfer ETH
-                      </Button>
-                    </>
-                  )}
-                  {isTransferring && (
-                    <div className=" flex flex-col gap-3 items-center justify-center mt-4 text-center ">
-                      <Spinner />
-                      <p className="text-sm font-semibold text-muted-foreground">
-                        Transfer in progress....
-                      </p>
-                    </div>
-                  )}
-                </form>
+                    )}
+                  </form>
+                )}
+
+                {transferType === 'NFT' && <TransferComponent />}
               </DialogContent>
             </Dialog>
           </div>
