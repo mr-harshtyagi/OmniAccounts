@@ -23,14 +23,13 @@ With OmniAccounts, you can create, connect and manage your NFT wallets seamlessl
 
 - [Deployed URL](https://omni-accounts.vercel.app/)
 - [Presentation](https://www.canva.com/design/DAGQJF__nus/9uDwQTKvPhDqxmk6iI_7ug/view)
-- [Video]()
 
 ## Deployed Contract
 
 - [NFT Wallet Contract Sepolia - 0x7D1a0abf95E2C2055E62C930722B131fDEd1dc84](https://sepolia.etherscan.io/address/0x7D1a0abf95E2C2055E62C930722B131fDEd1dc84#code)
 - [NFT Wallet Contract Base Sepolia - 0xc67f1a8a4Ce5c4513ea99E504e9F0B9e3A6742bB](https://sepolia.basescan.org/address/0xc67f1a8a4Ce5c4513ea99E504e9F0B9e3A6742bB#code)
 - [NFT Wallet Contract Optimism Sepolia - 0xf95324Ea39d78A4EDFefeB9Eb8CC74B38efE5880](https://sepolia-optimism.etherscan.io/address/0xf95324Ea39d78A4EDFefeB9Eb8CC74B38efE5880#code)
-- [NFT Wallet Contract Arbitrum Seploia - 0x93ac74e95EC83FeD0ee24Cf2C8A069678B644799](https://sepolia.arbiscan.io/address/0x93ac74e95EC83FeD0ee24Cf2C8A069678B644799#code)
+- [NFT Wallet Contract Arbitrum Sepolia - 0x93ac74e95EC83FeD0ee24Cf2C8A069678B644799](https://sepolia.arbiscan.io/address/0x93ac74e95EC83FeD0ee24Cf2C8A069678B644799#code)
 
 ## Tech Stack
 
