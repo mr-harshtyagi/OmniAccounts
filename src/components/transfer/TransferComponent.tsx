@@ -45,10 +45,10 @@ const TransferComponent = () => {
   const { toast } = useToast();
   const { switchChain } = useSwitchChain();
   const [tokenboundClient, setTokenboundClient] = useState<any>(null);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<any>({
     chain: null,
-    nftWallet: 0,
-    amount: 0,
+    nftWallet: "",
+    amount: "",
   });
 
   const signer = useEthersSigner({ chainId: chainId });
@@ -73,7 +73,7 @@ const TransferComponent = () => {
   }, [error]);
 
   const handleSelectionChange = (field: string, value: string): any => {
-    setFormData((prevSelection) => ({
+    setFormData((prevSelection: any) => ({
       ...prevSelection,
       [field]: value,
     }));
