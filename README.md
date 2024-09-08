@@ -3,7 +3,7 @@
 OmniAccounts are Omnichain ERC-6551 token bound accounts | Powered by LayerZero.
 With OmniAccounts, you can create, connect and manage your NFT wallets seamlessly.
 
-### Use Cases
+## Use Cases
 
 - Protocols can airdrop directly to an NFT's token bound account.
 - With ERC-6551, NFTs are now programmable on-chain identities. They can own assets and take action.
@@ -50,8 +50,8 @@ With OmniAccounts, you can create, connect and manage your NFT wallets seamlessl
 **_Dashboard_**
 ![image](/public/appDemo/dashboard.png)
 
-**_Mint MyloWalletNFT_**
-![image](/public/appDemo/mint-mylowalletnft.png)
+**_Mint omniaccountWalletNFT_**
+![image](/public/appDemo/mint-omniaccountwalletnft.png)
 
 **_Activate NFT Wallet_**
 ![image](/public/appDemo/activate-nft-wallet.png)
