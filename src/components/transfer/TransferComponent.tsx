@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -44,6 +44,7 @@ const TransferComponent = () => {
   } = useSendTransaction();
   const { toast } = useToast();
   const { switchChain } = useSwitchChain();
+  const [tokenboundClient, setTokenboundClient] = useState<any>(null);
   const [formData, setFormData] = useState({
     chain: null,
     nftWallet: 0,
@@ -91,11 +92,7 @@ const TransferComponent = () => {
       });
       return;
     }
-    const tokenboundClient = new TokenboundClient({
-      signer,
-      chain: chain,
-      chainId: chainId,
-    });
+
     const to = tokenboundClient.getAccount({
       tokenContract: chainIdToContractAddress(chainId) as `0x${string}`,
       tokenId: String(nftWallet),
@@ -103,6 +100,14 @@ const TransferComponent = () => {
     sendTransaction({ to, value: parseEther(String(amount)) });
     // console.log(to, parseEther(String(amount)));
   };
+
+  useEffect(() => {
+    const tokenboundClient = new TokenboundClient({
+      signer,
+      chain: chain,
+    });
+    setTokenboundClient(tokenboundClient);
+  }, [signer, chain]);
 
   return (
     <div className="py-8">
