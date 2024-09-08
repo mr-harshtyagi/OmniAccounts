@@ -20,6 +20,7 @@ import Image from "next/image";
 import { TokenboundClient } from "@tokenbound/sdk";
 import { useEthersSigner } from "@/hooks/useEthersSigner";
 import { useAccount, useBalance } from "wagmi";
+import { http, createPublicClient, formatEther } from "viem";
 
 import {
   Tooltip,
@@ -61,16 +62,25 @@ const WalletOverview = () => {
   });
   const [isPairing, setIsPairing] = useState(false);
   const [walletConnectUri, setWalletConnectUri] = useState("");
+  const [balance, setBalance] = useState("");
 
   const omniAccountWalletNFTAddress = chainIdToContractAddress(chainId);
 
-  const {
-    data: balance,
-    isLoading,
-    refetch,
-  } = useBalance({
-    address: nftAccount as `0x${string}`,
-  });
+  async function getBalance() {
+    const publicClient = createPublicClient({
+      chain: chain,
+      transport: http(),
+    });
+
+    const balance = await publicClient.getBalance({
+      address: nftAccount as `0x${string}`,
+    });
+    setBalance(formatEther(balance));
+  }
+
+  useEffect(() => {
+    if (nftAccount) getBalance();
+  }, [nftAccount]);
 
   const handleGoBackToWallets = () => {
     router.back();
@@ -299,6 +309,7 @@ const WalletOverview = () => {
     const tokenboundClient = new TokenboundClient({
       signer,
       chain: chain,
+      chainId: chainId,
     });
     setTokenboundClient(tokenboundClient);
     getAccount(tokenboundClient);
@@ -307,9 +318,7 @@ const WalletOverview = () => {
   const handleResetForm = () => ({
     recipientAddress: "",
     amount: "",
-  }
-
-  );
+  });
 
   return (
     <div className=" pt-8 px-12">
@@ -540,7 +549,7 @@ const WalletOverview = () => {
           </CardHeader>
           <CardContent className="flex justify-between items-center text-md">
             <p> ETH</p>
-            <p>{balance?.formatted} ETH</p>
+            <p>{balance} ETH</p>
           </CardContent>
         </Card>
         <Card className="w-[50%]">
