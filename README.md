@@ -1,8 +1,12 @@
 # OmniAccounts
 
+OmniAccounts are Omnichain ERC-6551 token bound accounts | Powered by LayerZero.
+With OmniAccounts, you can create, connect and manage your NFT wallets seamlessly.
+
 ### Use Cases
 
--
+- Protocols can airdrop directly to an NFT's token bound account.
+- With ERC-6551, NFTs are now programmable on-chain identities. They can own assets and take action.
 
 ## Table of Contents
 
@@ -17,8 +21,8 @@
 
 ## Links
 
-- [Deployed URL]()
-- [Presentation]()
+- [Deployed URL](https://omni-accounts.vercel.app/)
+- [Presentation](https://www.canva.com/design/DAGQJF__nus/9uDwQTKvPhDqxmk6iI_7ug/view)
 - [Video]()
 
 ## Deployed Contract
@@ -64,7 +68,9 @@
 
 ## Future Vision
 
--
+- Build a marketplace to trade ERC-6551 wallets that contains specific assets, loyalty points or tokens.
+- Feature like token integrations.
+- Build MVP and launch on mainnet.
 
 ## Instructions to Setup
 
