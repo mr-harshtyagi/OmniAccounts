@@ -53,8 +53,12 @@ const Bridge = () => {
 
   useEffect(() => {
     if (error) {
-      toast({ title: "Oops!", description: "Error Bridging NFT. Please try again!", variant: "destructive" })
-    };
+      toast({
+        title: "Oops!",
+        description: "Error Bridging NFT. Please try again!",
+        variant: "destructive",
+      });
+    }
   }, [error]);
 
   useEffect(() => {
@@ -67,7 +71,12 @@ const Bridge = () => {
   }, [nftData]);
 
   useEffect(() => {
-    if (isPending) toast({ title: "Bridging NFT...", description: "Confirm transaction in wallet.", variant: "default" });
+    if (isPending)
+      toast({
+        title: "Bridging NFT...",
+        description: "Confirm transaction in wallet.",
+        variant: "default",
+      });
   }, [isPending]);
 
   useEffect(() => {
@@ -90,15 +99,16 @@ const Bridge = () => {
   };
 
   const handleBridgeClick = async () => {
-    if (!selection.nft || !selection.chain) {
+    console.log(selection);
+    if (selection.nft == null || !selection.chain) {
       toast({
         title: "Oops!",
-        description: "Please select both an NFT and a destination chain to proceed.",
+        description:
+          "Please select both an NFT and a destination chain to proceed.",
         variant: "destructive",
       });
       return;
     }
-    console.log(selection);
 
     const onftContract = getContract({
       abi,
