@@ -49,7 +49,9 @@ const WalletOverview = () => {
   const [isAccountActive, setIsAccountActive] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
   const [isTransferring, setIsTransferring] = useState(false);
-  const [transferType, setTransferType] = useState<'Address' | 'NFT' | null>(null);
+  const [transferType, setTransferType] = useState<"Address" | "NFT" | null>(
+    null
+  );
   const { address, chainId, chain } = useAccount();
   const signer = useEthersSigner({ chainId: chainId });
   const [formData, setFormData] = useState<FormData>({
@@ -290,7 +292,7 @@ const WalletOverview = () => {
     setTransferType(null);
     setIsTransferring(false);
     setFormData({
-      recipientAddress: '',
+      recipientAddress: "",
       amount: 0,
     });
   };
@@ -433,13 +435,17 @@ const WalletOverview = () => {
                 </DialogHeader>
                 {!transferType && (
                   <div className="flex flex-col gap-2">
-                    <Button onClick={() => setTransferType('Address')}>Transfer ETH to Address</Button>
-                    <Button onClick={() => setTransferType('NFT')}>Transfer ETH to NFT Wallet</Button>
+                    <Button onClick={() => setTransferType("Address")}>
+                      Transfer ETH to Address
+                    </Button>
+                    <Button onClick={() => setTransferType("NFT")}>
+                      Transfer ETH to NFT Wallet
+                    </Button>
                   </div>
                 )}
                 {transferType && (
                   <div className="w-full flex justify-between items-center">
-                    <Button className="" variant='ghost' onClick={goBack}>
+                    <Button className="" variant="ghost" onClick={goBack}>
                       <ArrowLeftIcon className="h-4 w-4" />
                     </Button>
                     <p className="text-sm font-semibold text-muted-foreground">
@@ -448,7 +454,7 @@ const WalletOverview = () => {
                     <p></p>
                   </div>
                 )}
-                {transferType === 'Address' && (
+                {transferType === "Address" && (
                   <form onSubmit={transferETH}>
                     {!isTransferring ? (
                       <>
@@ -510,7 +516,7 @@ const WalletOverview = () => {
                   </form>
                 )}
 
-                {transferType === 'NFT' && <TransferComponent />}
+                {transferType === "NFT" && <TransferComponent />}
               </DialogContent>
             </Dialog>
           </div>
@@ -534,10 +540,16 @@ const WalletOverview = () => {
         </Card>
         <Card className="w-[50%]">
           <CardHeader>
-            <CardTitle>My Loyalty Points</CardTitle>
+            <CardTitle>How to get started with your NFT wallet?</CardTitle>
           </CardHeader>
-          <CardContent className="flex justify-center">
-            <Image src="/coming-soon.png" width={150} height={150} alt="Logo" />
+          <CardContent className="flex justify-left">
+            <div className="text-lg">
+              <li>Activate your NFT wallet</li>
+              <li>Connect your wallet to a Dapp</li>
+              <li>
+                Transfer ETH or perform any transaction like any other wallet.
+              </li>
+            </div>
           </CardContent>
         </Card>
       </div>
