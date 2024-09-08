@@ -50,7 +50,7 @@ With OmniAccounts, you can create, connect and manage your NFT wallets seamlessl
 **_Dashboard_**
 ![image](/public/appDemo/dashboard.png)
 
-**_Mint omniaccountWalletNFT_**
+**_Mint OmniAccount WalletNFT_**
 ![image](/public/appDemo/mint-omniaccountwalletnft.png)
 
 **_Activate NFT Wallet_**
@@ -68,6 +68,9 @@ With OmniAccounts, you can create, connect and manage your NFT wallets seamlessl
 
 **_Bridge NFT Wallet_**
 ![image](/public/appDemo/bridge-nft-wallet.png)
+
+**_Transfer ETH with Chain Selection_**
+![image](/public/appDemo/transfer-eth-chain-selection.png)
 
 ## Future Vision
 

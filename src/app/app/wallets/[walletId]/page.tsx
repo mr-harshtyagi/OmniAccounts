@@ -304,7 +304,9 @@ const WalletOverview = () => {
   const handleResetForm = () => ({
     recipientAddress: "",
     amount: "",
-  });
+  }
+
+  );
 
   return (
     <div className=" pt-8 px-12">
