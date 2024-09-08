@@ -5,7 +5,7 @@ import CreateWallet from "@/components/wallet/CreateWallet";
 import WalletCard from "@/components/wallet/WalletCard";
 import { WalletIcon } from "lucide-react";
 import React, { useEffect, useMemo } from "react";
-import { useAccount, useBalance } from "wagmi";
+import { useAccount } from "wagmi";
 import { useReadContract } from "wagmi";
 import { Skeleton } from "@/components/ui/skeleton";
 import Spinner from "@/components/Spinner";

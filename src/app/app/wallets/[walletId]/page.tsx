@@ -49,6 +49,7 @@ const WalletOverview = () => {
   const [isAccountActive, setIsAccountActive] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
   const [isTransferring, setIsTransferring] = useState(false);
+  const [tokenboundClient, setTokenboundClient] = useState<any>(null);
   const [transferType, setTransferType] = useState<"Address" | "NFT" | null>(
     null
   );
@@ -63,15 +64,12 @@ const WalletOverview = () => {
 
   const omniAccountWalletNFTAddress = chainIdToContractAddress(chainId);
 
-  const tokenboundClient = new TokenboundClient({
-    signer,
-    chain: chain,
-    chainId: chainId,
-  });
-
-  const { data: balance, isLoading } = useBalance({
-    address: nftAccount,
-    chainId: chainId,
+  const {
+    data: balance,
+    isLoading,
+    refetch,
+  } = useBalance({
+    address: nftAccount as `0x${string}`,
   });
 
   const handleGoBackToWallets = () => {
@@ -93,7 +91,7 @@ const WalletOverview = () => {
     // router.push(chain?.blockExplorers?.default.url + `/address/${nftAccount}`);
   };
 
-  const getAccount = async () => {
+  const getAccount = async (tokenboundClient: any) => {
     const account = tokenboundClient.getAccount({
       tokenContract: omniAccountWalletNFTAddress as `0x${string}`,
       tokenId: walletId as string,
@@ -298,7 +296,12 @@ const WalletOverview = () => {
   };
 
   useEffect(() => {
-    getAccount();
+    const tokenboundClient = new TokenboundClient({
+      signer,
+      chain: chain,
+    });
+    setTokenboundClient(tokenboundClient);
+    getAccount(tokenboundClient);
   }, []);
 
   const handleResetForm = () => ({
@@ -437,8 +440,12 @@ const WalletOverview = () => {
                 </DialogHeader>
                 {!transferType && (
                   <div className="flex flex-col gap-2">
-                    <Button onClick={() => setTransferType('NFT')}>Transfer ETH to NFT Wallet ID</Button>
-                    <Button onClick={() => setTransferType('Address')}>Transfer ETH to Address</Button>
+                    <Button onClick={() => setTransferType("NFT")}>
+                      Transfer ETH to NFT Wallet ID
+                    </Button>
+                    <Button onClick={() => setTransferType("Address")}>
+                      Transfer ETH to Address
+                    </Button>
                   </div>
                 )}
                 {transferType && (
@@ -514,10 +521,10 @@ const WalletOverview = () => {
                   </form>
                 )}
 
-                {transferType === 'NFT' && <TransferComponentWallet />}
-              </DialogContent >
-            </Dialog >
-          </div >
+                {transferType === "NFT" && <TransferComponentWallet />}
+              </DialogContent>
+            </Dialog>
+          </div>
         ) : (
           <div className="flex gap-8 items-center justify-center">
             <Button onClick={handleWalletCreate} disabled={isCreating}>
@@ -525,7 +532,7 @@ const WalletOverview = () => {
             </Button>
           </div>
         )}
-      </div >
+      </div>
       <div className="flex justify-between gap-8">
         <Card className="w-[50%]">
           <CardHeader>
@@ -551,7 +558,7 @@ const WalletOverview = () => {
           </CardContent>
         </Card>
       </div>
-    </div >
+    </div>
   );
 };
 

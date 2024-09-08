@@ -21,7 +21,7 @@ const config = getDefaultConfig({
   //   [sepolia.id]: http('https://eth-sepolia.g.alchemy.com/v2/...'),
   // },
   // transport is the networking middle layer that handles sending JSON-RPC requests to the Ethereum Node Provider (like Alchemy, Infura, etc).
-  ssr: false, // If your dApp uses server side rendering (SSR)
+  ssr: true, // If your dApp uses server side rendering (SSR)
 });
 
 const queryClient = new QueryClient();

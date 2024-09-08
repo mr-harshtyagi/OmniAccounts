@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { CopyIcon, FileCheckIcon } from "lucide-react";
 import { TokenboundClient } from "@tokenbound/sdk";
 import { useEthersSigner } from "@/hooks/useEthersSigner";
-import { useAccount, useBalance } from "wagmi";
+import { useAccount } from "wagmi";
 import { chainIdToContractAddress } from "@/lib/utils";
 
 const WalletCard = ({ wallet }: any) => {
