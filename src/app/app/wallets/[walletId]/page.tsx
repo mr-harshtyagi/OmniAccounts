@@ -315,10 +315,9 @@ const WalletOverview = () => {
     getAccount(tokenboundClient);
   }, []);
 
-  const handleResetForm = () => ({
-    recipientAddress: "",
-    amount: "",
-  });
+  const handleReset = () => (
+    setTransferType(null)
+  );
 
   return (
     <div className=" pt-8 px-12">
@@ -438,7 +437,7 @@ const WalletOverview = () => {
             {/* transfer ETH */}
             <Dialog>
               <DialogTrigger asChild>
-                <Button onClick={handleResetForm}>Transfer ETH</Button>
+                <Button onClick={handleReset}>Transfer ETH</Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]  ">
                 <DialogHeader>
