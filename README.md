@@ -27,7 +27,10 @@ With OmniAccounts, you can create, connect and manage your NFT wallets seamlessl
 
 ## Deployed Contract
 
-- []()
+- [NFT Wallet Contract Sepolia - 0x7D1a0abf95E2C2055E62C930722B131fDEd1dc84](https://sepolia.etherscan.io/address/0x7D1a0abf95E2C2055E62C930722B131fDEd1dc84#code)
+- [NFT Wallet Contract Base Sepolia - 0xc67f1a8a4Ce5c4513ea99E504e9F0B9e3A6742bB](https://sepolia.basescan.org/address/0xc67f1a8a4Ce5c4513ea99E504e9F0B9e3A6742bB#code)
+- [NFT Wallet Contract Optimism Sepolia - 0xf95324Ea39d78A4EDFefeB9Eb8CC74B38efE5880](https://sepolia-optimism.etherscan.io/address/0xf95324Ea39d78A4EDFefeB9Eb8CC74B38efE5880#code)
+- [NFT Wallet Contract Arbitrum Seploia - 0x93ac74e95EC83FeD0ee24Cf2C8A069678B644799](https://sepolia.arbiscan.io/address/0x93ac74e95EC83FeD0ee24Cf2C8A069678B644799#code)
 
 ## Tech Stack
 
@@ -80,6 +83,7 @@ Follow these instructions to set up and run the project:
 
 - Clone the Git repository: `https://github.com/mr-harshtyagi/OmniAccounts.git`
 - Install project dependencies: `pnpm install`
+- Copy `.env.example` to `.env.local` and fill in the required values.
 - Start the development server: `pnpm run dev`
 - Access the web app in your browser at [http://localhost:3000](http://localhost:3000)
 
