@@ -1,11 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardDescription, CardHeader } from "@/components/ui/card";
 
 export default function Home() {
   return (
@@ -22,10 +18,10 @@ export default function Home() {
         <Image src="/logo.png" width={150} height={150} alt="Logo" />
         <div className="flex flex-col items-center gap-2">
           <h1 className="text-4xl font-bold text-primary ">
-            Welcome to OmniAccounts !
+            Welcome to OmniAccounts
           </h1>
           <p className="text-muted-foreground">
-            This will be a line of description.
+            Omnichain ERC-6551 Token Bound Accounts | Powered by LayerZero
           </p>
         </div>
       </div>
@@ -33,21 +29,21 @@ export default function Home() {
         <Card className="shadow-sm border-none h-full w-full rounded-lg bg-yellow-200 bg-opacity-15 border cursor-pointer transform transition-transform duration-300 ease-in-out hover:scale-110">
           <CardHeader>
             <CardDescription className="text-center pt-1 text-lg text-black">
-              This is a featured card.
+              Use your NFTs as wallets on any chain.
             </CardDescription>
           </CardHeader>
         </Card>
         <Card className="shadow-sm border-none h-full w-full rounded-lg bg-yellow-200 bg-opacity-15 border cursor-pointer transform transition-transform duration-300 ease-in-out hover:scale-110">
           <CardHeader>
             <CardDescription className="text-center pt-1 text-lg text-black">
-              This is a featured card.
+              Create and manage your NFT wallets
             </CardDescription>
           </CardHeader>
         </Card>
         <Card className="shadow-sm border-none h-full w-full rounded-lg bg-yellow-200 bg-opacity-15 border cursor-pointer transform transition-transform duration-300 ease-in-out hover:scale-110">
           <CardHeader>
             <CardDescription className="text-center pt-1 text-lg text-black">
-              This is a featured card.
+              Send and receive tokens across chains with your NFT wallet
             </CardDescription>
           </CardHeader>
         </Card>
